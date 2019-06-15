@@ -1,12 +1,25 @@
 <?php
+include('config/db_connect.php');
 
+// references:
+// https://stackoverflow.com/questions/6768793/get-the-full-url-in-php
+// https://stackoverflow.com/questions/11480763/how-to-get-parameters-from-a-url-string
+$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$parsedUrl = parse_url($actual_link);
+parse_str($parsedUrl['query'], $query);
+$hero_id = $query['id'];
+
+// for Hero Table
 $sql = "select * from Hero where Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
 $hero = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
 mysqli_free_result($sqlResult);
+
+// for Abilities
+
 mysqli_close($db);
 
-//print_r($hero);
+//print_r($abilityArray);
 ?>
 
 <html>
@@ -43,7 +56,7 @@ mysqli_close($db);
         <div class="card-content">
             <?php
             // mostly power stats
-            //foreach loop
+            // foreach loop
             ?>
         </div>
     </div>
@@ -76,5 +89,5 @@ mysqli_close($db);
     </div>
 </div>
 
-
+<?php include ('footer.php'); ?>
 </html>
