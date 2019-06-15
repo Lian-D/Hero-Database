@@ -17,7 +17,7 @@ mysqli_close($db);
 
         <?php foreach ($arrayOfHeroes as $aHero): ?>
 
-            <div class="col s6 md3">
+            <div class="col s6 m6">
                 <div class="card">
                     <div class="card-content">
                         <div class="card-image">
