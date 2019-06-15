@@ -1,4 +1,14 @@
 <?php
+include('config/db_connect.php');
+
+// references:
+// https://stackoverflow.com/questions/6768793/get-the-full-url-in-php
+// https://stackoverflow.com/questions/11480763/how-to-get-parameters-from-a-url-string
+$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$parsedUrl = parse_url($actual_link);
+parse_str($parsedUrl['query'], $query);
+$hero_id = $query['id'];
+
 
 $sql = "select * from Hero where Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
