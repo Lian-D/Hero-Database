@@ -8,14 +8,14 @@
     mysqli_close($db);
 
 ?>
+<script src="js/queryConstructor.js"></script>
 
 <html>
 <?php include('header.php'); ?>
 
 <div class="container">
     <div class="row">
-
-
+        <input type="text" name="search" placeholder="Search..">
     </div>
 </div>
 
