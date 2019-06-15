@@ -14,8 +14,7 @@
 
 <div class="container">
     <div class="row">
-
-
+        <input type="text" name="search" placeholder="Search..">
     </div>
 </div>
 
