@@ -34,7 +34,7 @@
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper">
-            <span class="brand-logo center">Hero Database</span>
+            <a href="index.php" class="brand-logo center">Hero Database</a>
             <ul class="right">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="search.php">Search</a></li>
