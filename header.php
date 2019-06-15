@@ -28,6 +28,13 @@
             margin: 20px auto;
             padding: 20px;
         }
+
+        h1 {
+            padding-left: 1.5vw;
+            padding-top: 1.5vh;
+            margin-bottom: 0.1vh;
+        }
+
     </style>
 </head>
 <body class="black">
