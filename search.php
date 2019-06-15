@@ -8,6 +8,7 @@
     mysqli_close($db);
 
 ?>
+<script src="js/queryConstructor.js"></script>
 
 <html>
 <?php include('header.php'); ?>
