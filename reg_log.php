@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// code and database ideas from
+// some code and database ideas from
 // https://www.tutorialrepublic.com/php-tutorial/php-mysql-login-system.php
 // https://stackoverflow.com/questions/19531044/creating-a-very-simple-1-username-password-login-in-php/19531260
 // https://johnmorrisonline.com/build-php-login-form-using-sessions/
