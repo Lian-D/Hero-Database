@@ -37,7 +37,7 @@
 
     </style>
 </head>
-<body class="grey">
+<body class="black">
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper">
