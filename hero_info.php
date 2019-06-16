@@ -25,7 +25,6 @@ $age = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
 $sql ="select salary from HeroRank where Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
 $salary = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
-$salary = $salary['salary'];
 
 // setup vars for main info
 $name       = $hero['heroName'];
@@ -37,12 +36,12 @@ $loc        = $hero['location'];
 $affil      = $hero['affiliation'];
 $heroStatus = $hero['heroStatus'];
 $heroRank   = $hero['heroRank_ID'];
+$salary     = $salary['salary'];
 
 // detailed info aka powerStats
 $sql = "select dex, durability, luck, strength, intelligence from PowerStats WHERE Hero_ID = 0";
 $sqlResult = mysqli_query($db, $sql);
 $powerStats = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
-
 
 // for Abilities
 $sql = "select abilityName from Ability where ability_ID IN (select ability_ID from CanDo where Hero_ID = $hero_id)";
