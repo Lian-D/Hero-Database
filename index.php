@@ -9,7 +9,7 @@ mysqli_close($db);
 
 ?>
 
-<html>
+<html lang="en">
 <?php include('header.php'); ?>
 
 <div class="container">
