@@ -44,7 +44,7 @@
             <a href="index.php" class="brand-logo center">Hero Database</a>
             <ul class="right">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="simplequeries.php.php">Simple Search</a></li>
+                <li><a href="simplequeries.php">Simple Search</a></li>
                 <li><a href="search.php">Advanced Search</a></li>
             </ul>
         </div>
