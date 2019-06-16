@@ -4,6 +4,7 @@ include('config/db_connect.php');
 // references:
 // https://stackoverflow.com/questions/6768793/get-the-full-url-in-php
 // https://stackoverflow.com/questions/11480763/how-to-get-parameters-from-a-url-string
+
 $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $parsedUrl = parse_url($actual_link);
 parse_str($parsedUrl['query'], $query);
@@ -13,6 +14,11 @@ $hero_id = $query['id'];
 $sql = "select * from Hero where Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
 $hero = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
+
+// detailed info aka powerStats
+$sql = "select dex, durability, luck, strength, intelligence from PowerStats WHERE Hero_ID = 0";
+$sqlResult = mysqli_query($db, $sql);
+$powerStats = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
 
 // to get age
 $sql = "select age from HeroDobAge where DOB in ( select DOB from Hero where Hero_ID = $hero_id)";
@@ -24,9 +30,8 @@ $age = $age[0]['age'];
 $sql = "select abilityName from Ability where ability_ID IN (select ability_ID from CanDo where Hero_ID = $hero_id)";
 $sqlResult = mysqli_query($db, $sql);
 $abilityArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+
 mysqli_free_result($sqlResult);
-
-
 mysqli_close($db);
 ?>
 
@@ -60,10 +65,11 @@ mysqli_close($db);
     <div class="card large">
         <span class="card-title"><h1>Detailed Info</h1></span>
         <div class="card-content">
-            <?php
-            // mostly power stats
-            // foreach loop
-            ?>
+            <ul class="collection">
+            <?php foreach ($powerStats as $key => $value): ?>
+                <li class="collection-item"><?php echo ucfirst(strtolower($key)). ": " . $value?></li>
+            <?php endforeach; ?>
+            </ul>
         </div>
     </div>
 
