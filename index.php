@@ -1,7 +1,7 @@
 <?php
 include('config/db_connect.php');
 
-$sql = "select heroName, heroStatus, heroRank_ID, Hero_ID from Hero";
+$sql = "select heroName, heroStatus, heroRank_ID, Hero_ID from Hero order by heroRank_ID ASC";
 $sqlResult = mysqli_query($db, $sql);
 $arrayOfHeroes = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
 mysqli_free_result($sqlResult);
@@ -22,10 +22,10 @@ mysqli_close($db);
                     <div class="card-content">
                         <div class="card-image">
                             <?php
-                            $img = 'media/'.$aHero['Hero_ID'].'.png';
-                            (@getimagesize($img)) ? : $img = 'media/noimg.png';
+                            $img = 'media/' . $aHero['Hero_ID'] . '.png';
+                            (@getimagesize($img)) ?: $img = 'media/noimg.png';
                             ?>
-                            <img src="<?php echo $img ?>">
+                            <a href="hero_info.php?id=<?php echo $aHero['Hero_ID'] ?>"><img src="<?php echo $img ?>"></a>
                             <span class="hero_card_text_bg hero_card_text card-title"> <?php echo $aHero['heroName'] ?> </span>
                         </div>
                         <div class="card-action right-align">
