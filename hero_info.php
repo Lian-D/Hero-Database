@@ -62,7 +62,7 @@ mysqli_close($db);
 <?php include('header.php'); ?>
 
 <div class="container">
-    <div class="card large">
+    <div class="card">
         <span class="card-title"><h1><?php echo $name ?></h1></span>
         <div class="card-content">
             <div class="right">
@@ -86,7 +86,7 @@ mysqli_close($db);
         </div>
     </div>
 
-    <div class="card large">
+    <div class="card">
         <span class="card-title"><h1>Detailed Info</h1></span>
         <div class="card-content">
             <ul class="collection">
@@ -97,7 +97,7 @@ mysqli_close($db);
         </div>
     </div>
 
-    <div class="card large">
+    <div class="card">
         <span class="card-title"><h1>Abilities</h1></span>
         <div class="card-content">
             <ul class="collection">
@@ -108,7 +108,7 @@ mysqli_close($db);
         </div>
     </div>
 
-    <div class="card large">
+    <div class="card">
         <span class="card-title"><h1>Schedule</h1></span>
         <div class="card-content">
             <?php
@@ -117,7 +117,7 @@ mysqli_close($db);
         </div>
     </div>
 
-    <div class="card large">
+    <div class="card">
         <span class="card-title"><h1>Medals</h1></span>
         <div class="card-content">
             <ul class="collection">
