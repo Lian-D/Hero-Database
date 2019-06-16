@@ -22,21 +22,21 @@ $sqlResult = mysqli_query($db, $sql);
 $age = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
 
 // to get salary
-$sql ="select salary from HeroRank where Hero_ID = $hero_id";
+$sql = "select salary from HeroRank where Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
 $salary = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
 
 // setup vars for main info
-$name       = $hero['heroName'];
-$dob        = $hero['DOB'];
-$age        = $age[0]['age'];
-$height     = $hero['height'] . ' cm';
-$weight     = $hero['weight'] . ' lbs';
-$loc        = $hero['location'];
-$affil      = $hero['affiliation'];
+$name = $hero['heroName'];
+$dob = $hero['DOB'];
+$age = $age[0]['age'];
+$height = $hero['height'].' cm';
+$weight = $hero['weight'].' lbs';
+$loc = $hero['location'];
+$affil = $hero['affiliation'];
 $heroStatus = $hero['heroStatus'];
-$heroRank   = $hero['heroRank_ID'];
-$salary     = $salary['salary'];
+$heroRank = $hero['heroRank_ID'];
+$salary = $salary['salary'];
 
 // detailed info aka powerStats
 $sql = "select dex, durability, luck, strength, intelligence from PowerStats WHERE Hero_ID = 0";
@@ -72,7 +72,6 @@ mysqli_close($db);
                 <img src="<?php echo $img ?>">
             </div>
             <ul class="collection">
-<!--                <li class="collection-item">Name: --><?php //echo $name ?><!--</li>-->
                 <li class="collection-item">Age: <?php echo $age ?></li>
                 <li class="collection-item">Date of Birth: <?php echo $dob ?></li>
                 <li class="collection-item">Height: <?php echo $height ?></li>
@@ -91,7 +90,7 @@ mysqli_close($db);
         <div class="card-content">
             <ul class="collection">
                 <?php foreach ($powerStats as $key => $value): ?>
-                <li class="collection-item"><?php echo ucfirst(strtolower($key)). ": " . $value ?></li>
+                    <li class="collection-item"><?php echo ucfirst(strtolower($key)) . ": " . $value ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -102,7 +101,7 @@ mysqli_close($db);
         <div class="card-content">
             <ul class="collection">
                 <?php foreach ($abilityArray as $ability): ?>
-                <li class="collection-item"> <?php echo ($ability["abilityName"]); ?> </li>
+                    <li class="collection-item"> <?php echo($ability["abilityName"]); ?> </li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -121,15 +120,15 @@ mysqli_close($db);
         <span class="card-title"><h1>Medals</h1></span>
         <div class="card-content">
             <ul class="collection">
-            <?php foreach($medalsArray as $medal): ?>
-            <li class="collection-item"><strong><?php echo $medal['title']?></strong>
-                <br/>
-                Obtained on: <?php echo $medal['medalDate']?></li>
-            <?php endforeach ?>
+                <?php foreach ($medalsArray as $medal): ?>
+                    <li class="collection-item"><strong><?php echo $medal['title'] ?></strong>
+                        <br/>
+                        Obtained on: <?php echo $medal['medalDate'] ?></li>
+                <?php endforeach ?>
             </ul>
         </div>
     </div>
 </div>
 
-<?php include ('footer.php'); ?>
+<?php include('footer.php'); ?>
 </html>

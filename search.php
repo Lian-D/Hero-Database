@@ -15,7 +15,7 @@ mysqli_close($db);
 
 <div class="container">
     <div class="row">
-        <input type="text" class="white-text" name="search" placeholder="Search..">
+        <input type="text" class="grey-text" name="search" placeholder="Search..">
     </div>
 
     <div class="card">

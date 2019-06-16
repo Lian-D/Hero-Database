@@ -41,5 +41,7 @@ function doSalaryQuery($salaryArray, $db)
             $ordby 
             $ascOrDesc";
     $sqlResult = mysqli_query($db, $sql);
-    return $salaryResult = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+    $salaryResult = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+    mysqli_free_result($sqlResult);
+    return $salaryResult;
 }

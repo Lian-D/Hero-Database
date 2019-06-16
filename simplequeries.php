@@ -21,7 +21,10 @@ if (isset($_POST['doProjection'])) {
     $sql = "select $field from $table";
     $sqlResult = mysqli_query($db, $sql);
     $projectionResult = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+    mysqli_free_result($sqlResult);
 }
+
+mysqli_close($db);
 
 ?>
 
@@ -33,40 +36,42 @@ if (isset($_POST['doProjection'])) {
         <h4 class="center" style="padding-top: 3vh">Salaries (Selection).</h4>
         <div class="row">
             <form class="white" action="simplequeries.php" method="POST">
-                <div class="col s5">
+
+                <div class="col s6">
                     <label>
                         <input type="radio" name="inequality" value="greater_than"/>
-                        <span>Greater Than</span>
+                        <span> Greater Than </span>
                     </label>
                     <p/>
                     <label>
                         <input type="radio" name="inequality" value="less_than"/>
-                        <span>Less Than</span>
+                        <span> Less Than </span>
                     </label>
                 </div>
 
-                <div class="col s7">
+                <div class="col s6">
                     <label>
                         <input type="radio" name="ascOrDesc" value="DESC"/>
-                        <span>Order by Highest First</span>
+                        <span>Order by Descending</span>
                     </label>
                     <p/>
                     <label>
                         <input type="radio" name="ascOrDesc" value="ASC"/>
-                        <span>Order by Lowest First</span>
+                        <span>Order by Ascending</span>
                     </label>
                 </div>
 
                 <p/>
+
                 <div class="row">
                     <div class="col s12 valign-wrapper">
-                        <div class="col s6">
+                        <div class="col s3">
                             <label>
                                 <input type="checkbox" name="equal_to"/>
                                 <span>Equal</span>
                             </label>
                         </div>
-                        <div class="col s6">
+                        <div class="col s9">
                             <label>Amount (Integer)</label>
                             <input type="text" name="amount" value="0">
                             <div class="center">
@@ -108,7 +113,7 @@ if (isset($_POST['doProjection'])) {
                     </div>
                 </form>
             </div>
-            <div class="col s12">
+            <div class="col s9">
                 <?php if (!empty($projectionResult)) {
                     foreach ($projectionResult as $key => $innerArray): ?>
                         <ul class="collection">
