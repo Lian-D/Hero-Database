@@ -13,13 +13,21 @@ $hero_id = $query['id'];
 $sql = "select * from Hero where Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
 $hero = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
-mysqli_free_result($sqlResult);
+
+// to get age
+$sql = "select age from HeroDobAge where DOB in ( select DOB from Hero where Hero_ID = $hero_id)";
+$sqlResult = mysqli_query($db, $sql);
+$age = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+$age = $age[0]['age'];
 
 // for Abilities
+$sql = "select abilityName from Ability where ability_ID IN (select ability_ID from CanDo where Hero_ID = $hero_id)";
+$sqlResult = mysqli_query($db, $sql);
+$abilityArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+mysqli_free_result($sqlResult);
+
 
 mysqli_close($db);
-
-//print_r($abilityArray);
 ?>
 
 <html>
@@ -29,25 +37,23 @@ mysqli_close($db);
     <div class="card large">
         <span class="card-title"><h1><?php echo $hero['heroName'] ?></h1></span>
         <div class="card-content">
-            <h5>
-                <div class="right">
-                    <?php $img = 'media/' . $hero['Hero_ID'] . '.png';
-                    (@getimagesize($img)) ?: $img = 'media/noimg.png';
-                    ?>
-                    <img src="<?php echo $img ?>">
-                </div>
-                <ul>
-                    <li>Date of Birth:<?php echo $hero['DOB'] ?></li>
-                    <li>Age:</li>
-                    <li>Height: <?php echo $hero['height'] . ' cm' ?></li>
-                    <li>Weight: <?php echo $hero['weight'] . ' lbs' ?></li>
-                    <li>Location: <?php echo $hero['location'] ?></li>
-                    <li>Affiliation: <?php echo $hero['affiliation'] ?></li>
-                    <li>Status (Alive/Injured): <?php echo $hero['heroStatus'] ?></li>
-                    <li>Rank: <?php echo $hero['heroRank_ID'] ?></li>
-                    <li>Salary: <?php echo $hero['heroRank_ID'] ?></li>
-                </ul>
-            </h5>
+            <div class="right">
+                <?php $img = 'media/' . $hero['Hero_ID'] . '.png';
+                (@getimagesize($img)) ?: $img = 'media/noimg.png';
+                ?>
+                <img src="<?php echo $img ?>">
+            </div>
+            <ul class="collection">
+                <li class="collection-item">Date of Birth: <?php echo $hero['DOB'] ?></li>
+                <li class="collection-item">Age: <?php echo $age ?></li>
+                <li class="collection-item">Height: <?php echo $hero['height'] . ' cm' ?></li>
+                <li class="collection-item">Weight: <?php echo $hero['weight'] . ' lbs' ?></li>
+                <li class="collection-item">Location: <?php echo $hero['location'] ?></li>
+                <li class="collection-item">Affiliation: <?php echo $hero['affiliation'] ?></li>
+                <li class="collection-item">Status (Alive/Injured): <?php echo $hero['heroStatus'] ?></li>
+                <li class="collection-item">Rank: <?php echo $hero['heroRank_ID'] ?></li>
+                <li class="collection-item">Salary: <?php echo $hero['heroRank_ID'] ?></li>
+            </ul>
         </div>
     </div>
 
@@ -62,11 +68,13 @@ mysqli_close($db);
     </div>
 
     <div class="card large">
-        <span class="card-title"><h1>Abilities</span>
+        <span class="card-title"><h1>Abilities</h1></span>
         <div class="card-content">
-            <?php
-            //foreach loop
-            ?>
+            <ul class="collection">
+                <?php foreach ($abilityArray as $ability): ?>
+                    <li class="collection-item"> <?php echo($ability["abilityName"]); ?> </li>
+                <?php endforeach; ?>
+            </ul>
         </div>
     </div>
 
@@ -89,5 +97,5 @@ mysqli_close($db);
     </div>
 </div>
 
-<?php include ('footer.php'); ?>
+<?php include('footer.php'); ?>
 </html>
