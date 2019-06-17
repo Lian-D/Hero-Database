@@ -14,12 +14,13 @@ mysqli_close($db);
 <?php include('header.php'); ?>
 
 <div class="container">
+    <div class="card">
     <div class="row">
         <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Projection.</h4>
         <div class="col s3">
             <form class="white" action="" method="POST">
                 Availible on:
-                <input type="text" name="availibility" placeholder= "date"/>
+                <input type="text" name="availibility" Schedule Availbility = "date"/>
                 <p>
                     <br/>
                 </p>
@@ -47,6 +48,7 @@ mysqli_close($db);
         </div>
         <div class="col s9">
         </div>
+    </div>
     </div>
 <!--    <div class="card">-->
 <!--        some check boxes and radio buttons (delete this when you're done with it nephew)-->
