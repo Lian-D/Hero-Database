@@ -39,7 +39,7 @@ $heroRank = $hero['heroRank_ID'];
 $salary = $salary['salary'];
 
 // detailed info aka powerStats
-$sql = "select dex, durability, luck, strength, intelligence from PowerStats WHERE Hero_ID = 0";
+$sql = "select dex, durability, luck, strength, intelligence from PowerStats WHERE Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
 $powerStats = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
 
