@@ -5,12 +5,10 @@ include('joinquery.php');
 
 // some reference from our main man the net ninja
 
-$salaryArray = array_fill_keys(array('inequality', 'equality', 'salary', 'ascOrDesc', 'ordby'), '');
-//echo print_r($salaryArray);
-
 
 if (isset($_POST['doSalary'])) {
 //    echo print_r($_POST). '<br/>';
+    $salaryArray = array_fill_keys(array('inequality', 'equality', 'salary', 'ascOrDesc', 'ordby'), '');
     $salaryArray = salarySetup($salaryArray);
     $salaryResult = doSalaryQuery($salaryArray, $db);
 }
@@ -169,7 +167,7 @@ mysqli_close($db);
                     foreach ($abilityResult as $key => $innerArray): ?>
                         <ul class="collection">
                             <?php foreach ($innerArray as $innerKey => $item): ?>
-                                <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
+                                <li class="collection-item"><?php echo 'Hero Name: ' . $item ?></li>
                             <?php endforeach; ?>
                         </ul>
                     <?php endforeach;
