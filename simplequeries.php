@@ -31,6 +31,8 @@ if (isset($_POST['doProjection'])) {
     mysqli_free_result($sqlResult);
 }
 
+$abilityNameList = getAbilityNameList($db);
+
 mysqli_close($db);
 
 ?>
@@ -142,18 +144,14 @@ mysqli_close($db);
                     <div style='display: block'>
                         Select Ability Name to show Hero's with those Abilities
                         <select class = "select" name="abilityName">
-                            <option value="Immeasurable Physical Prowess">Immeasurable Physical Prowess</option>
-                            <option value="Supernatural Reflexes and Senses">Supernatural Reflexes and Senses</option>
-                            <option value="Enhanced Fighting Skill">Enhanced Fighting Skill</option>
-                            <option value="Full Cyborg Weaponry">Full Cyborg Weaponry</option>
-                            <option value="Extreme Luck">Extreme Luck</option>
-                            <option value="Psychokinesis">Psychokinesis</option>
-                            <option value="Superhuman Physical Prowess">Superhuman Physical Prowess</option>
-                            <option value="Invulnerability">Invulnerability</option>
-                            <option value="Indomitable Will">Indomitable Will</option>
-                            <option value="Master Combatant">Master Combatant</option>
+                        <?php if (!empty($abilityNameList)) {
+                            foreach ($abilityNameList as $arrayResult): ?>
+                                <li class="select-item"><?php {
+                                        echo "<option value='" . $arrayResult['abilityName'] ."'>" . $arrayResult['abilityName'] ."</option>";
+                                    } ?></li>
+                            <?php endforeach;
+                        } ?>
                         </select>
-
                     </div>
 
                     <div class="center">
