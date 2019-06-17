@@ -10,6 +10,14 @@
             font-weight: bolder;
         }
 
+        .showLogin {
+
+        }
+
+        .dontShowLogin {
+            display: none !important;
+        }
+
         .nav-wrapper {
             background: linear-gradient(to right, #263238, #171e22);
         }
@@ -41,11 +49,13 @@
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper">
-            <a href="index.php" class="brand-logo center">Hero Database</a>
+            <a href="index.php" class="brand-logo left" style="padding-left: 1vw">Hero Database</a>
             <ul class="right">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="simplequeries.php">Simple Search</a></li>
                 <li><a href="search.php">Advanced Search</a></li>
+                <li><a href="admin.php">Admin Panel</a></li>
+                <li><a href="reg_log.php">User Session</a></li>
             </ul>
         </div>
     </nav>
