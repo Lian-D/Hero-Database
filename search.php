@@ -16,7 +16,7 @@ mysqli_close($db);
 <div class="container">
     <div class="card">
     <div class="row">
-        <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Projection.</h4>
+        <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Availability Search.</h4>
         <div class="col s3">
             <form class="white" action="" method="POST">
                 Availible on:
