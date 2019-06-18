@@ -14,4 +14,17 @@ function doHeroAbilityQuery($abilityName, $db)
     return $abilityResult;
 }
 
+function getAbilityNameList($db)
+{
+    $sql = "select abilityName
+            from  Ability";
+    //echo "SQL : " . $sql;
+    $sqlResult = mysqli_query($db, $sql);
+    $abilityResult = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+    //echo print_r($sqlResult);
+    mysqli_free_result($sqlResult);
+    return $abilityResult;
+
+}
+
 ?>

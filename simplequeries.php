@@ -5,12 +5,10 @@ include('joinquery.php');
 
 // some reference from our main man the net ninja
 
-$salaryArray = array_fill_keys(array('inequality', 'equality', 'salary', 'ascOrDesc', 'ordby'), '');
-//echo print_r($salaryArray);
-
 
 if (isset($_POST['doSalary'])) {
 //    echo print_r($_POST). '<br/>';
+    $salaryArray = array_fill_keys(array('inequality', 'equality', 'salary', 'ascOrDesc', 'ordby'), '');
     $salaryArray = salarySetup($salaryArray);
     $salaryResult = doSalaryQuery($salaryArray, $db);
 }
@@ -32,6 +30,8 @@ if (isset($_POST['doProjection'])) {
     $projectionResult = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
     mysqli_free_result($sqlResult);
 }
+
+$abilityNameList = getAbilityNameList($db);
 
 mysqli_close($db);
 
@@ -144,18 +144,14 @@ mysqli_close($db);
                     <div style='display: block'>
                         Select Ability Name to show Hero's with those Abilities
                         <select class = "select" name="abilityName">
-                            <option value="Immeasurable Physical Prowess">Immeasurable Physical Prowess</option>
-                            <option value="Supernatural Reflexes and Senses">Supernatural Reflexes and Senses</option>
-                            <option value="Enhanced Fighting Skill">Enhanced Fighting Skill</option>
-                            <option value="Full Cyborg Weaponry">Full Cyborg Weaponry</option>
-                            <option value="Extreme Luck">Extreme Luck</option>
-                            <option value="Psychokinesis">Psychokinesis</option>
-                            <option value="Superhuman Physical Prowess">Superhuman Physical Prowess</option>
-                            <option value="Invulnerability">Invulnerability</option>
-                            <option value="Indomitable Will">Indomitable Will</option>
-                            <option value="Master Combatant">Master Combatant</option>
+                        <?php if (!empty($abilityNameList)) {
+                            foreach ($abilityNameList as $arrayResult): ?>
+                                <li class="select-item"><?php {
+                                        echo "<option value='" . $arrayResult['abilityName'] ."'>" . $arrayResult['abilityName'] ."</option>";
+                                    } ?></li>
+                            <?php endforeach;
+                        } ?>
                         </select>
-
                     </div>
 
                     <div class="center">
@@ -169,7 +165,7 @@ mysqli_close($db);
                     foreach ($abilityResult as $key => $innerArray): ?>
                         <ul class="collection">
                             <?php foreach ($innerArray as $innerKey => $item): ?>
-                                <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
+                                <li class="collection-item"><?php echo 'Hero Name: ' . $item ?></li>
                             <?php endforeach; ?>
                         </ul>
                     <?php endforeach;
