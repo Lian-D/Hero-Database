@@ -1,18 +1,25 @@
 <?php
 include('config/db_connect.php');
 include('salary_functions.php');
+include('joinquery.php');
 
 // some reference from our main man the net ninja
-
-$salaryArray = array_fill_keys(array('inequality', 'equality', 'salary', 'ascOrDesc', 'ordby'), '');
-//echo print_r($salaryArray);
 
 
 if (isset($_POST['doSalary'])) {
 //    echo print_r($_POST). '<br/>';
+    $salaryArray = array_fill_keys(array('inequality', 'equality', 'salary', 'ascOrDesc', 'ordby'), '');
     $salaryArray = salarySetup($salaryArray);
     $salaryResult = doSalaryQuery($salaryArray, $db);
 }
+
+if (isset($_POST['doJoin'])) {
+
+    $abilityName = htmlspecialchars($_POST['abilityName']);
+
+    $abilityResult = doHeroAbilityQuery($abilityName, $db);
+}
+
 
 if (isset($_POST['doProjection'])) {
     $field = htmlspecialchars($_POST['field']);
@@ -23,6 +30,8 @@ if (isset($_POST['doProjection'])) {
     $projectionResult = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
     mysqli_free_result($sqlResult);
 }
+
+$abilityNameList = getAbilityNameList($db);
 
 mysqli_close($db);
 
@@ -102,12 +111,12 @@ mysqli_close($db);
             <div class="col s3">
                 <form class="white" action="simplequeries.php" method="POST">
                     Field Name.
-                    <input type="text" name="field"/>
+                    <input type="text" name="field" placeholder= "Use commas to separate"/>
                     <p>
                         <br/>
                     </p>
                     Table Name.
-                    <input type="text" name="table"/>
+                    <input type="text" name="table" placeholder= "Single Table"/>
                     <div class="center">
                         <input type="submit" name="doProjection" value="Submit Request" class="btn-small">
                     </div>
@@ -126,7 +135,53 @@ mysqli_close($db);
             </div>
         </div>
     </div>
-</div>
 
+    <div class="card">
+        <div class="row">
+            <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Join.</h4>
+            <div class="row" >
+                <form class="white" action="simplequeries.php" method="POST">
+                    <div style='display: block'>
+                        Select Ability Name to show Hero's with those Abilities
+                        <select class = "select" name="abilityName">
+                        <?php if (!empty($abilityNameList)) {
+                            foreach ($abilityNameList as $arrayResult): ?>
+                                <li class="select-item"><?php {
+                                        echo "<option value='" . $arrayResult['abilityName'] ."'>" . $arrayResult['abilityName'] ."</option>";
+                                    } ?></li>
+                            <?php endforeach;
+                        } ?>
+                        </select>
+                    </div>
+
+                    <div class="center">
+                        <input type="submit" name="doJoin" value="Submit Request" class="btn-small">
+                    </div>
+                </form>
+
+            </div>
+            <div class="col s9">
+                <?php if (!empty($abilityResult)) {
+                    foreach ($abilityResult as $key => $innerArray): ?>
+                        <ul class="collection">
+                            <?php foreach ($innerArray as $innerKey => $item): ?>
+                                <li class="collection-item"><?php echo 'Hero Name: ' . $item ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endforeach;
+                } ?>
+            </div>
+        </div>
+    </div>
+
+    <head>
+        <style>
+            .select {display: block;}
+        </style>
+    </head>
+</div
+
+
+}
 <?php include('footer.php'); ?>
 </html>
