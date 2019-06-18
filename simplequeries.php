@@ -2,6 +2,7 @@
 include('config/db_connect.php');
 include('salary_functions.php');
 include('joinquery.php');
+include('aggregation.php');
 
 // some reference from our main man the net ninja
 
@@ -32,6 +33,12 @@ if (isset($_POST['doProjection'])) {
 }
 
 $abilityNameList = getAbilityNameList($db);
+
+if (isset($_POST['doAggregation'])) {
+
+        $aggregationResult = doCount($db);
+
+}
 
 mysqli_close($db);
 
@@ -173,6 +180,36 @@ mysqli_close($db);
             </div>
         </div>
     </div>
+
+    <div class="card">
+        <div class="row">
+            <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Aggregation.</h4>
+            <div class="col s3">
+                <form class="white" action="simplequeries.php" method="POST">
+                    <div style="display:block">
+                        <select class = "select" name="aggregation">
+                            <option value="count">Count No. of Medals of Each Hero</option>
+                        </select>
+                    </div>
+                    <div class="center">
+                        <input type="submit" name="doAggregation" value="Submit Request" class="btn-small">
+                    </div>
+                </form>
+            </div>
+            <div class="col s9">
+                <?php if (!empty($aggregationResult)) {
+                    foreach ($aggregationResult as $key => $innerArray): ?>
+                        <ul class="collection">
+                            <?php foreach ($innerArray as $innerKey => $item): ?>
+                                <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endforeach;
+                } ?>
+            </div>
+        </div>
+    </div>
+
 
     <head>
         <style>
