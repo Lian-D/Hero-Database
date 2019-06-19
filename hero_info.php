@@ -54,6 +54,16 @@ $sql = "select * from MedalHonors left join HasEarnedMedal on HasEarnedMedal.med
 $sqlResult = mysqli_query($db, $sql);
 $medalsArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
 
+// for schedule
+$sql = "SELECT hs.Available, s.sDate FROM Hero h, Hero_schedule hs, Sche s
+        where h.Hero_ID = $hero_id AND hs.Hero_ID = h.Hero_ID AND hs.Schedule_ID = s.schedule_ID
+        order by s.sDate DESC";
+$sqlResult = mysqli_query($db, $sql);
+$scheArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+//if (isset($scheArray)) {
+//    echo print_r($scheArray);
+//}
+
 mysqli_free_result($sqlResult);
 mysqli_close($db);
 ?>
@@ -110,9 +120,11 @@ mysqli_close($db);
     <div class="card">
         <span class="card-title"><h1>Schedule</h1></span>
         <div class="card-content">
-            <?php
-            //foreach loop
-            ?>
+            <ul class="collection">
+            <?php foreach ($scheArray as $scheItem): ?>
+            <li class="collection-tem">Available on <?php echo $scheItem['sDate'] ?>? <strong><?php echo $scheItem['Available'] ?></strong></li>
+            <?php endforeach; ?>
+            </ul>
         </div>
     </div>
 
