@@ -84,15 +84,15 @@ mysqli_close($db);
                 <img src="<?php echo $img ?>">
             </div>
             <ul class="collection">
-                <li class="collection-item">Age: <?php echo $age ?></li>
-                <li class="collection-item">Date of Birth: <?php echo $dob ?></li>
-                <li class="collection-item">Height: <?php echo $height ?></li>
-                <li class="collection-item">Weight: <?php echo $weight ?></li>
-                <li class="collection-item">Location: <?php echo $loc ?></li>
-                <li class="collection-item">Affiliation: <?php echo $affil ?></li>
+                <li class="collection-item">Age:                    <?php echo $age ?></li>
+                <li class="collection-item">Date of Birth:          <?php echo $dob ?></li>
+                <li class="collection-item">Height:                 <?php echo $height ?></li>
+                <li class="collection-item">Weight:                 <?php echo $weight ?></li>
+                <li class="collection-item">Location:               <?php echo $loc ?></li>
+                <li class="collection-item">Affiliation:            <?php echo $affil ?></li>
                 <li class="collection-item">Status (Alive/Injured): <?php echo $heroStatus ?></li>
-                <li class="collection-item">Rank: <?php echo $heroRank ?></li>
-                <li class="collection-item">Salary: <?php echo $salary ?></li>
+                <li class="collection-item">Rank:                   <?php echo $heroRank ?></li>
+                <li class="collection-item">Salary:                 <?php echo $salary ?></li>
             </ul>
         </div>
     </div>
