@@ -3,11 +3,11 @@ include('config/db_connect.php');
 
 
 // get usernames
-$sql = "select username from users";
+$sql = "select Hero_ID, heroName from Hero";
 $result = mysqli_query($db, $sql);
-$usernameArray = mysqli_fetch_all($result);
+$heroIDArray = mysqli_fetch_all($result);
 
-echo print_r($usernameArray);
+//echo print_r($heroIDArray);
 
 $admin = true;
 $showInterface = 'display: none !important;';
@@ -29,12 +29,12 @@ mysqli_close($db);
         <h4 class="center" style="padding-top: 3vh">Admin Interface.</h4>
         <div class="row">
             <div class="col s12 center">
-                <h5 class="center" style="">Delete user permissions.</h5>
+                <h5 class="center" style="">Remove a hero from the database (by ID and Name).</h5>
                 <form>
-                <select class = "select" name="heroUserDropDown">
-                    <?php if (!empty($usernameArray)) { foreach ($usernameArray as $arrayResult): ?>
+                <select class = "select" name="heroIDDropDown">
+                    <?php if (!empty($heroIDArray)) { foreach ($heroIDArray as $arrayResult): ?>
                         <li class="select-item">
-                            <?php { echo "<option value='" . $arrayResult[0]."'>" .$arrayResult[0] ."</option>";} ?>
+                            <?php { echo "<option value='" . $arrayResult[0]."'>" .$arrayResult[0] . ' - ' . $arrayResult[1]  ."</option>";} ?>
                         </li>
                     <?php endforeach; } ?>
                 </select>
