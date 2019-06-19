@@ -1,4 +1,5 @@
 <?php
+
 include('config/db_connect.php');
 
 $sql = "select heroName, heroStatus, heroRank_ID, Hero_ID from Hero order by heroRank_ID ASC";

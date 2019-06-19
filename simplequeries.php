@@ -20,8 +20,7 @@ if (isset($_POST['doJoin'])) {
 
 
 if (isset($_POST['doProjection'])) {
-    list($sqlResult, $projectionResult) = doProjection($db);
-    mysqli_free_result($sqlResult);
+    list($projectionResult) = doProjection($db);
 }
 
 $heroNameList = getHeroNames($db);
@@ -114,7 +113,7 @@ mysqli_close($db);
 
     <div class="card">
         <div class="row">
-            <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Projection.</h4>
+            <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Field + Table Search (Projection).</h4>
             <div class="col s3">
                 <form class="white" action="simplequeries.php" method="POST">
                     Field Name.
