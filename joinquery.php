@@ -2,7 +2,7 @@
 
 function doHeroAbilityQuery($abilityName, $db)
 {
-
+    echo $abilityName."\n ";
     $sql = "select heroName
             from Hero, CanDo, Ability 
             where Hero.Hero_ID = CanDo.Hero_ID AND CanDo.ability_ID = Ability.ability_ID AND Ability.abilityName = '$abilityName'";

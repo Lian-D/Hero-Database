@@ -3,7 +3,8 @@ include('config/db_connect.php');
 include('schedulerPowerstatFunctions.php');
 
     if (isset($_POST['doAvailability'])) {
-        $result = doScheduleQuery('dex', 'durability', 'luck', 'strength', 'intelligence', date("y-m-d", strtotime('dateWanted')), $db);
+        $result = doScheduleQuery($_POST['dex'], $_POST['durability'], $_POST['luck'], $_POST['strength'], $_POST['intelligence'], date("Y-m-d", strtotime($_POST['dateWanted'])), $db);
+        mysqli_close($db);
     }
 
 ?>
