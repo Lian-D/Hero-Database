@@ -8,12 +8,9 @@ session_start();
 
 if (isset($_POST['update'])) {
     $hero_id = $_SESSION['Hero_ID'];
-    echo $hero_id;
     $updateStatus = $_POST['update'];
-    echo $updateStatus;
-//    echo $hello;
-//    echo $_POST['update_status']['updated_status'];
-    $sql = "update Hero set heroStatus = '$updateStatus' where (Hero_ID = $hero_id)";
+    $sql = "update `Hero` set `heroStatus` = '$updateStatus' where (Hero_ID = $hero_id)";
+    $result = mysqli_query($db, $sql);
 }
 
 
