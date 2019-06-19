@@ -20,20 +20,20 @@ include('schedulerPowerstatFunctions.php');
         <div class="col s3">
             <form class="white" action="" method="POST">
                 Available on :
-                <input type="date" name="dateWanted" Schedule Availbility = "date"/>
+                <input type="date" name="dateWanted" Schedule Availbility = "date" required/>
                 <p>
                     <br/>
                 </p>
                 Dex At Least at least
-                <input type="text" name="dex" placeholder= "0"/>
+                <input type="text" name="dex" placeholder= "0" value="0"/>
                 Durability at least
-                <input type="text" name="durability" placeholder= "0"/>
+                <input type="text" name="durability" placeholder= "0" value="0"/>
                 Luck at least
-                <input type="text" name="luck" placeholder= "0"/>
+                <input type="text" name="luck" placeholder= "0" value="0"/>
                 Strength at least
-                <input type="text" name="strength" placeholder= "0"/>
+                <input type="text" name="strength" placeholder= "0" value="0"/>
                 Intelligence at least
-                <input type="text" name="intelligence" placeholder= "0"/>
+                <input type="text" name="intelligence" placeholder= "0" value="0"/>
 
                 <p>
                     <br/>
@@ -51,7 +51,9 @@ include('schedulerPowerstatFunctions.php');
                 foreach ($result as $key => $innerArray): ?>
                     <ul class="collection">
                         <?php foreach ($innerArray as $innerKey => $item): ?>
-                            <li class="collection-item"><?php echo 'Hero Name : ' . $item ?></li>
+                            <li class="collection-item"><strong><?php echo 'Hero Name : ' . $item ?></strong>
+                            <br/>
+                                <?php echo 'Available on: ' . $_POST['dateWanted'] ?></li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endforeach;

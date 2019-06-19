@@ -1,12 +1,12 @@
 <?php
     function doScheduleQuery($dex, $dur, $luk, $str, $int, $date, $db)
     {
-        echo $dex."\n ";
-        echo $dur."\n ";
-        echo $luk."\n ";
-        echo $str."\n ";
-        echo $int."\n ";
-        echo $date."\n ";
+//        echo $dex."\n ";
+//        echo $dur."\n ";
+//        echo $luk."\n ";
+//        echo $str."\n ";
+//        echo $int."\n ";
+//        echo $date."\n ";
 
         $sql = "SELECT h.heroName
             FROM Hero h, PowerStats ps
@@ -26,7 +26,7 @@
 //        echo "SQL : " . $sql;
 
         $sqlResult = mysqli_query($db, $sql);
-        echo print_r($sqlResult);
+//        echo print_r($sqlResult);
         $result = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
         mysqli_free_result($sqlResult);
         return $result;
