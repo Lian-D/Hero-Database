@@ -1,11 +1,18 @@
 <?php
+include('config/db_connect.php');
 session_start();
 
 // some code and database ideas from
 // https://www.tutorialrepublic.com/php-tutorial/php-mysql-login-system.php
 // https://stackoverflow.com/questions/1545357/how-to-check-if-a-user-is-logged-in-in-php for count idea
 
-include('config/db_connect.php');
+if (isset($_POST['update'])) {
+    $hero_id = $_SESSION['Hero_ID'];
+    $updateStatus = $_POST['update'];
+    $sql = "update `Hero` set `heroStatus` = '$updateStatus' where (Hero_ID = $hero_id)";
+    $result = mysqli_query($db, $sql);
+}
+
 
 if (isset($_POST['login'])) {
     if (!(isset($_SESSION['isLoggedIn']))) {
@@ -33,11 +40,12 @@ function doLogin($username, $password, $db)
 
     if ($count == 1) {
         $user = mysqli_fetch_array($sqlResult);
+//        echo print_r($user);
         mysqli_free_result($sqlResult);
         $_SESSION['isLoggedIn'] = true;
         $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['connected_hero_id'] = (isset($user['Hero_ID'])) ? ($user['Hero_ID']) : null;
+        $_SESSION['Hero_ID'] = (isset($user['Hero_ID'])) ? ($user['Hero_ID']) : null;
         $_SESSION['isAdmin'] = $user['is_admin'];
     }
 }
@@ -61,7 +69,6 @@ if (isset($_POST['logout'])) {
     }
 }
 
-mysqli_close($db);
 
 function userIsAnAdminQuestionMark(): bool
 {
@@ -134,8 +141,22 @@ function userIsAnAdminQuestionMark(): bool
                         echo "<form action='admin.php'>
                         <button type='submit' name='adminbtn' class='btn-small' style='margin-top: -4.25em;'>Admin Panel</button>
                         </form>";
-                    }
-                    ?> <p/>
+                    } else if (isset($_SESSION['Hero_ID'])) { ?>
+                        <?php
+//                        echo $_SESSION['Hero_ID'];
+                        $tmp_hero_id = $_SESSION['Hero_ID'];
+//                        echo $tmp_hero_id;
+                        $sqlResult = mysqli_query($db, "select * from Hero where Hero_ID = $tmp_hero_id");
+                        $hero = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
+//                        echo print_r($hero);
+                        echo "<p/>"."Current status: ".$hero['heroStatus'];
+                        ?>
+                        <form action ="user.php" class="white" method="POST">
+                            <input type="text" name="update" placeholder="Update status.">
+                                <button type="submit" name="upd" class="btn-large">submit request</button>
+                        </form>
+                    <?php }?>
+                    <p/>
                     <p/>
                 </div>
             </div>
@@ -149,6 +170,8 @@ function userIsAnAdminQuestionMark(): bool
     </div>
 </div>
 
-<?php include('footer.php'); ?>
+<?php
+mysqli_close($db);
+include('footer.php'); ?>
 
 </html>
