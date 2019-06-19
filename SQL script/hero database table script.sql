@@ -4,22 +4,22 @@
 CREATE TABLE Ability (
   ability_ID int(11) NOT NULL,
   abilityName char(50) DEFAULT NULL,
-  PRIMARY KEY (ability_ID);
-) 
+  PRIMARY KEY (ability_ID)
+); 
 
 CREATE TABLE AffiliTAB (
   Aff_ID varchar(30) NOT NULL,
   Affliliation varchar(30) NOT NULL,
-  PRIMARY KEY (Aff_ID);
-) 
+  PRIMARY KEY (Aff_ID)
+) ;
 
 CREATE TABLE CanDo (
   Hero_ID int(11) NOT NULL,
   ability_ID int(11) NOT NULL,
   PRIMARY KEY (Hero_ID,ability_ID),
   FOREIGN KEY (ability_ID) REFERENCES Ability (ability_id) ON DELETE CASCADE,
-  FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id);
-) 
+  FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id)
+);
 
 
 CREATE TABLE FightResult (
@@ -27,8 +27,8 @@ CREATE TABLE FightResult (
   Location varchar(6) NOT NULL,
   Winner int(11) NOT NULL,
   Loser int(11) NOT NULL,
-  PRIMARY KEY (schedule_ID,Location),
-) 
+  PRIMARY KEY (schedule_ID,Location)
+); 
 
 
 CREATE TABLE FightSchedule (
@@ -39,8 +39,8 @@ CREATE TABLE FightSchedule (
   FOREIGN KEY (Loser) REFERENCES Hero (hero_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (schedule_ID,Location) REFERENCES FightSchedule (schedule_id, location) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (schedule_ID) REFERENCES Sche (schedule_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (Winner) REFERENCES Hero (hero_id) ON DELETE CASCADE ON UPDATE CASCADE;
-) 
+  FOREIGN KEY (Winner) REFERENCES Hero (hero_id) ON DELETE CASCADE ON UPDATE CASCADE
+); 
 
 CREATE TABLE HasEarnedMedal (
   Hero_ID int(11) NOT NULL,
@@ -48,9 +48,8 @@ CREATE TABLE HasEarnedMedal (
   medalDate date DEFAULT NULL,
   PRIMARY KEY (medal_ID,Hero_ID),
   FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (medal_ID) REFERENCES MedalHonors (medal_id) ON DELETE CASCADE ON UPDATE CASCADE;
-
-) 
+  FOREIGN KEY (medal_ID) REFERENCES MedalHonors (medal_id) ON DELETE CASCADE ON UPDATE CASCADE
+); 
 
 CREATE TABLE Hero (
   Hero_ID int(11) NOT NULL,
@@ -67,24 +66,24 @@ CREATE TABLE Hero (
   PRIMARY KEY (Hero_ID),
   FOREIGN KEY (affiliation) REFERENCES AffiliTAB (aff_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (heroRank_ID) REFERENCES HeroRank (herorank_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (powerStat_ID) REFERENCES PowerStats (powerstatsid) ON DELETE CASCADE ON UPDATE CASCADE;
-) 
+  FOREIGN KEY (powerStat_ID) REFERENCES PowerStats (powerstatsid) ON DELETE CASCADE ON UPDATE CASCADE
+); 
 
 
 CREATE TABLE HeroDobAge (
   DOB date NOT NULL,
   age int(11) DEFAULT NULL,
   PRIMARY KEY (DOB),
-  FOREIGN KEY (DOB) REFERENCES Hero (dob) ON DELETE CASCADE;
-) 
+  FOREIGN KEY (DOB) REFERENCES Hero (dob) ON DELETE CASCADE
+); 
 
 CREATE TABLE HeroRank (
   Hero_ID int(11) DEFAULT NULL,
   HeroRank_ID int(11) NOT NULL,
   salary int(11) DEFAULT NULL,
   PRIMARY KEY (HeroRank_ID),
-  FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id) ON DELETE CASCADE;
-) 
+  FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id) ON DELETE CASCADE
+); 
 
 CREATE TABLE Hero_schedule (
   Hero_ID int(11) NOT NULL,
@@ -92,15 +91,15 @@ CREATE TABLE Hero_schedule (
   Available varchar(6) NOT NULL DEFAULT 'Yes'
   PRIMARY KEY (Hero_ID,Schedule_ID),
   FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (Schedule_ID) REFERENCES Sche (schedule_id) ON DELETE CASCADE ON UPDATE CASCADE;
-) 
+  FOREIGN KEY (Schedule_ID) REFERENCES Sche (schedule_id) ON DELETE CASCADE ON UPDATE CASCADE
+); 
 
 
 CREATE TABLE MedalHonors (
   medal_ID int(11) NOT NULL,
   title char(60) DEFAULT NULL,
-  PRIMARY KEY (medal_ID),
-) 
+  PRIMARY KEY (medal_ID)
+); 
 
 CREATE TABLE PowerStats (
   powerStatsID int(11) NOT NULL,
@@ -111,14 +110,14 @@ CREATE TABLE PowerStats (
   strength int(11) DEFAULT NULL,
   intelligence int(11) DEFAULT NULL,
   PRIMARY KEY (powerStatsID,Hero_ID),
-  FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id) ON DELETE CASCADE ON UPDATE CASCADE;
-) 
+  FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id) ON DELETE CASCADE ON UPDATE CASCADE
+); 
 
 CREATE TABLE Sche (
   schedule_ID int(11) NOT NULL,
   sDate date NOT NULL,
-  PRIMARY KEY (schedule_ID),
-) 
+  PRIMARY KEY (schedule_ID)
+); 
 
 
 CREATE TABLE users (
@@ -128,8 +127,8 @@ CREATE TABLE users (
   Hero_ID int(11) DEFAULT NULL,
   is_admin tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (id),
-  FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id) ON DELETE SET NULL;
-) 
+  FOREIGN KEY (Hero_ID) REFERENCES Hero (hero_id) ON DELETE SET NULL
+); 
 
 /* Tuple Population */
 
