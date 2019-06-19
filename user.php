@@ -14,8 +14,7 @@ if (isset($_POST['login'])) {
         if ($username === 'admin') {
             header('Location: admin.php');
         }
-        $username = stripcslashes($username);
-        $username = htmlspecialchars($username);
+        $username = htmlspecialchars(stripcslashes($username));
         doLogin($username, $password, $db);
     } else {
         null;
@@ -29,14 +28,12 @@ function doLogin($username, $password, $db)
     } else {
         $sql = "select * from users where (users.username = '$username' and users.password = '$password')";
     }
-
     $sqlResult = mysqli_query($db, $sql);
     $count = mysqli_num_rows($sqlResult);
 
     if ($count == 1) {
         $user = mysqli_fetch_array($sqlResult);
         mysqli_free_result($sqlResult);
-
         $_SESSION['isLoggedIn'] = true;
         $_SESSION['username'] = $username;
         $_SESSION['user_id'] = $user['id'];
@@ -49,7 +46,6 @@ if (isset($_POST['register'])) {
     $username = $_POST['register_username'];
     $password = $_POST['register_password'];
     doRegister($username, $password, $db);
-
 }
 
 function doRegister($username, $password, $db)
@@ -78,37 +74,25 @@ function userIsAnAdminQuestionMark(): bool
 
 <?php include('header.php'); ?>
 <div class="container">
-    <div class="row center">
+    <div class="row center" style="
+    <?php if ((isset($_SESSION['isLoggedIn']) && ($_SESSION['isLoggedIn'] === true))) {echo "display:none !important";} else {null;} ?> ">
 
         <div class="col s6">
-            <div style="
-            <?php if ((isset($_SESSION['isLoggedIn']) && ($_SESSION['isLoggedIn'] === true))) {
-                echo "display:none !important";
-            } else {
-                null;
-            } ?> ">
-                <h3 class="">Login</h3>
-
-                <form action="user.php" method="POST">
-                    <div class="form-group">
-                        <label>Username:</label>
-                        <input type="text" name="login_username" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Password:</label>
-                        <input type="password" name="login_password">
-                    </div>
-                    <button type="submit" name="login" class="btn-large">Login</button>
-                </form>
-            </div>
+            <h3 class="">Login</h3>
+            <form action="user.php" method="POST">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" name="login_username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" name="login_password">
+                </div>
+                <button type="submit" name="login" class="btn-large">Login</button>
+            </form>
         </div>
 
-        <div class="col s6" style="
-        <?php if ((isset($_SESSION['isLoggedIn']) && ($_SESSION['isLoggedIn'] === true))) {
-            echo "display:none !important";
-        } else {
-            null;
-        } ?> ">
+        <div class="col s6">
             <h3 class="">Register</h3>
             <form action="user.php" method="POST">
                 <div class="form-group">
@@ -124,14 +108,15 @@ function userIsAnAdminQuestionMark(): bool
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="
+    <?php if (!(isset($_SESSION['isLoggedIn']))) {echo "display:none !important";} else {null;} ?>">
         <div class="col s12 center">
             <div class="card">
                 <h3 class="center-align" style="padding-right: 0.5em">User Info</h3>
                 <div style="padding-left: 0.5em; padding-bottom: 0.75em">
                     Username: <?php
                     if (isset($_SESSION['isLoggedIn'])) {
-                        echo $_SESSION['username'];
+                        echo "<strong>".$_SESSION['username']."</strong>";
                     }
                     ?> <p/>
                     User type:
@@ -146,19 +131,16 @@ function userIsAnAdminQuestionMark(): bool
                     ?> <p/>
                     User actions: <?php
                     if (userIsAnAdminQuestionMark()) {
-                        echo "<a href='admin.php'>admin panel</a>";
+                        echo "<form action='admin.php'>
+                        <button type='submit' name='adminbtn' class='btn-small' style='margin-top: -4.25em;'>Admin Panel</button>
+                        </form>";
                     }
                     ?> <p/>
                     <p/>
                 </div>
             </div>
         </div>
-        <div class="col s12 center" style="
-        <?php if (!(isset($_SESSION['isLoggedIn']))) {
-            echo "display:none !important";
-        } else {
-            null;
-        } ?> ">
+        <div class="col s12 center">
             <h3 class="">Logout</h3>
             <form action="user.php" method="POST">
                 <button type="submit" name="logout" class="btn-large">Logout</button>

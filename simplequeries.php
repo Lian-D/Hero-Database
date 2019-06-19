@@ -20,8 +20,7 @@ if (isset($_POST['doJoin'])) {
 
 
 if (isset($_POST['doProjection'])) {
-    list($sqlResult, $projectionResult) = doProjection($db);
-    mysqli_free_result($sqlResult);
+    list($projectionResult) = doProjection($db);
 }
 
 $heroNameList = getHeroNames($db);
