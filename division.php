@@ -8,7 +8,7 @@
 //        echo $int."\n ";
 //        echo $date."\n ";
 
-        $sql = "SELECT h.Hero_ID, h.heroName 
+        $sql = "SELECT h.heroName 
             FROM Hero h
             Where not EXISTS(select *
                  from Ability a
