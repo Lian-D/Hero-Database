@@ -21,7 +21,8 @@
                 From Hero h, Hero_schedule hs, Sche s
                 Where h.Hero_ID = hs.Hero_ID 
                 and hs.Schedule_ID =s.schedule_ID 
-                and s.sDate = DATE'$date' 
+                and s.sDate = DATE'$date'
+                and hs.Available = 'Yes'
                 group by h.Hero_ID, s.sDate)";
 //        echo "SQL : " . $sql;
 
