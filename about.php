@@ -6,6 +6,7 @@
         <h3>References and Credit:</h3>
         <ul>
             <li>materializecss for styling, layout based on their markup</li>
+            <li>net ninja for how to php</li>
         </ul>
     </div>
 </div>

@@ -29,7 +29,7 @@ $heroNameList = getHeroNames($db);
 $abilityNameList = getAbilityNameList($db);
 
 if (isset($_POST['doAggregation'])) {
-        $aggregationResult = doCount($db);
+    $aggregationResult = doCount($db);
 }
 
 mysqli_close($db);
@@ -93,12 +93,11 @@ mysqli_close($db);
         </div>
         <div class="center">
             <ul class="collection">
-                <?php if (!empty($salaryResult)) {
-                    foreach ($salaryResult as $arrayResult): ?>
-                        <li class="collection-item"><?php {
-                                echo ($arrayResult['heroName']) . ": 円" . $arrayResult['salary'];
-                            } ?></li>
-                    <?php endforeach;} ?>
+                <?php if (!empty($salaryResult)) { foreach ($salaryResult as $arrayResult): ?>
+                    <li class="collection-item"><?php {
+                            echo ($arrayResult['heroName']) . ": 円" . $arrayResult['salary'];
+                        } ?></li>
+                <?php endforeach;} ?>
             </ul>
         </div>
     </div>
@@ -121,14 +120,13 @@ mysqli_close($db);
                 </form>
             </div>
             <div class="col s9">
-                <?php if (!empty($projectionResult)) {
-                    foreach ($projectionResult as $key => $innerArray): ?>
-                        <ul class="collection">
-                            <?php foreach ($innerArray as $innerKey => $item): ?>
-                                <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endforeach; } ?>
+                <?php if (!empty($projectionResult)) { foreach ($projectionResult as $key => $innerArray): ?>
+                    <ul class="collection">
+                        <?php foreach ($innerArray as $innerKey => $item): ?>
+                            <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endforeach; } ?>
             </div>
         </div>
     </div>
@@ -141,12 +139,11 @@ mysqli_close($db);
                     <div style='display: block'>
                         Select Ability Name to show Hero's with those Abilities
                         <select class = "select" name="abilityName">
-                        <?php if (!empty($abilityNameList)) {
-                            foreach ($abilityNameList as $arrayResult): ?>
-                                <li class="select-item"><?php {
-                                        echo "<option value='" . $arrayResult['abilityName'] ."'>" . $arrayResult['abilityName'] ."</option>";
-                                    } ?></li>
-                            <?php endforeach; } ?>
+                        <?php if (!empty($abilityNameList)) { foreach ($abilityNameList as $arrayResult): ?>
+                            <li class="select-item">
+                                <?php { echo "<option value='" . $arrayResult['abilityName'] ."'>" . $arrayResult['abilityName'] ."</option>";} ?>
+                            </li>
+                        <?php endforeach; } ?>
                         </select>
                     </div>
 
@@ -157,14 +154,13 @@ mysqli_close($db);
 
             </div>
             <div class="col s9">
-                <?php if (!empty($abilityResult)) {
-                    foreach ($abilityResult as $key => $innerArray): ?>
-                        <ul class="collection">
-                            <?php foreach ($innerArray as $innerKey => $item): ?>
-                                <li class="collection-item"><?php echo 'Hero Name: ' . $item ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endforeach; } ?>
+                <?php if (!empty($abilityResult)) { foreach ($abilityResult as $key => $innerArray): ?>
+                    <ul class="collection">
+                        <?php foreach ($innerArray as $innerKey => $item): ?>
+                            <li class="collection-item"><?php echo 'Hero Name: ' . $item ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endforeach; } ?>
             </div>
         </div>
     </div>
@@ -182,14 +178,13 @@ mysqli_close($db);
 
                     <div class="col s4">
                         <select class = "select" name="heroNameDropdown">
-                            <?php if (!empty($heroNameList)) {
-                                foreach ($heroNameList as $arrayResult): ?>
-                                    <li class="select-item">
-                                        <?php { ?>
-                                            <option value="heroSelected"><?php echo $arrayResult['heroName'] ?></option>;
-                                        <?php } ?>
-                                    </li>
-                                <?php endforeach; } ?>
+                            <?php if (!empty($heroNameList)) { foreach ($heroNameList as $arrayResult): ?>
+                                <li class="select-item">
+                                    <?php { ?>
+                                        <option value="heroSelected"><?php echo $arrayResult['heroName'] ?></option>;
+                                    <?php } ?>
+                                </li>
+                            <?php endforeach; } ?>
                         </select>
                     </div>
 
