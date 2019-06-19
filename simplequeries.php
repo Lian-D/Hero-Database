@@ -3,16 +3,8 @@ include('config/db_connect.php');
 include('salary_functions.php');
 include('joinquery.php');
 include('aggregation.php');
-
-// some reference from our main man the net ninja
-
-function getHeroNames(mysqli $db)
-{
-    $sql = "select heroName from Hero";
-    $sqlResult = mysqli_query($db, $sql);
-    $heroNameList = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
-    return $heroNameList;
-}
+include('getHeroNames.php');
+include('simplequeries_projection.php');
 
 if (isset($_POST['doSalary'])) {
 //    echo print_r($_POST). '<br/>';
@@ -22,20 +14,13 @@ if (isset($_POST['doSalary'])) {
 }
 
 if (isset($_POST['doJoin'])) {
-
     $abilityName = htmlspecialchars($_POST['abilityName']);
-
     $abilityResult = doHeroAbilityQuery($abilityName, $db);
 }
 
 
 if (isset($_POST['doProjection'])) {
-    $field = htmlspecialchars($_POST['field']);
-    $table = htmlspecialchars($_POST['table']);
-
-    $sql = "select $field from $table";
-    $sqlResult = mysqli_query($db, $sql);
-    $projectionResult = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+    list($sqlResult, $projectionResult) = doProjection($db);
     mysqli_free_result($sqlResult);
 }
 
@@ -204,7 +189,7 @@ mysqli_close($db);
                                             <option value="heroSelected"><?php echo $arrayResult['heroName'] ?></option>;
                                         <?php } ?>
                                     </li>
-                                <?php endforeach;} ?>
+                                <?php endforeach; } ?>
                         </select>
                     </div>
 
@@ -213,6 +198,7 @@ mysqli_close($db);
                     </div>
                 </form>
             </div>
+
             <div class="col s6">
                 <?php if (!empty($aggregationResult)) {
                     foreach ($aggregationResult as $key => $innerArray): ?>
@@ -221,11 +207,11 @@ mysqli_close($db);
                                 <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
                             <?php endforeach; ?>
                         </ul>
-                    <?php endforeach;} ?>
+                    <?php endforeach; } ?>
             </div>
+
         </div>
     </div>
-
 
     <head>
         <style>
