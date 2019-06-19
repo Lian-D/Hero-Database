@@ -60,9 +60,9 @@ $sql = "SELECT hs.Available, s.sDate FROM Hero h, Hero_schedule hs, Sche s
         order by s.sDate DESC";
 $sqlResult = mysqli_query($db, $sql);
 $scheArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
-if (isset($scheArray)) {
-    echo print_r($scheArray);
-}
+//if (isset($scheArray)) {
+//    echo print_r($scheArray);
+//}
 
 mysqli_free_result($sqlResult);
 mysqli_close($db);
