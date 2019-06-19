@@ -18,7 +18,7 @@ include('schedulerPowerstatFunctions.php');
         <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Availability Search.</h4>
         <div class="col s3">
             <form class="white" action="" method="POST">
-                Availible on :
+                Available on :
                 <input type="date" name="dateWanted" Schedule Availbility = "date"/>
                 <p>
                     <br/>
