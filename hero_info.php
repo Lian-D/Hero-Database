@@ -64,6 +64,16 @@ $scheArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
 //    echo print_r($scheArray);
 //}
 
+// for fights
+$sql = "Select W.Heroname as winner, L.Heroname as loser,S.sDate, F.Location 
+        From FightResult F, Sche S, Hero W, Hero L
+        where S.schedule_ID = F.schedule_ID 
+        AND F.Winner = W.Hero_ID 
+        AND F.Loser = L.Hero_ID 
+        AND (F.Winner = $hero_id or F.loser = $hero_id)";
+$sqlResult = mysqli_query($db, $sql);
+$fightResultsArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+
 mysqli_free_result($sqlResult);
 mysqli_close($db);
 ?>
@@ -124,6 +134,24 @@ mysqli_close($db);
             <?php foreach ($scheArray as $scheItem): ?>
             <li class="collection-tem">Available on <?php echo $scheItem['sDate'] ?>? <strong><?php echo $scheItem['Available'] ?></strong></li>
             <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="card-title"><h1>Notable Bouts</h1></span>
+        <div class="card-content">
+            <ul class="collection">
+                <?php foreach ($fightResultsArray as $fightResult): ?>
+                    <li class="collection-item">
+                        <?php echo $name ?> fought on <em><?php echo $fightResult['sDate'] ?></em> at <em><?php echo $fightResult['Location'] ?>.</em>
+                        <br/>
+                        <ul class="collection">
+                            <li><strong>Winner:</strong> <?php echo $fightResult['winner'] ?>.</li>
+                            <li><strong>Loser:</strong> <?php echo $fightResult['loser'] ?>.</li>
+                        </ul>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </div>
