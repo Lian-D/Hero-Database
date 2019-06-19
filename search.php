@@ -1,11 +1,10 @@
 <?php
 include('config/db_connect.php');
+include('schedulerPowerstatFunctions.php');
 
-$sql = "select heroName, heroStatus, heroRank_ID, Hero_ID from Hero";
-$sqlResult = mysqli_query($db, $sql);
-$arrayOfHeroes = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
-mysqli_free_result($sqlResult);
-mysqli_close($db);
+    if (isset($_POST['doAvailability'])) {
+        $result = doScheduleQuery('dex', 'durability', 'luck', 'strength', 'intelligence', date("y-m-d", strtotime('dateWanted')), $db);
+    }
 
 ?>
 <script src="js/queryConstructor.js"></script>
@@ -19,8 +18,8 @@ mysqli_close($db);
         <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Availability Search.</h4>
         <div class="col s3">
             <form class="white" action="" method="POST">
-                Availible on:
-                <input type="text" name="availibility" Schedule Availbility = "date"/>
+                Availible on :
+                <input type="date" name="dateWanted" Schedule Availbility = "date"/>
                 <p>
                     <br/>
                 </p>
@@ -40,13 +39,22 @@ mysqli_close($db);
                 </p>
 
                 <div class="center">
-                    <input type="submit" name="doProjection" value="Submit Request" class="btn-small">
+                    <input type="submit" name="doAvailability" value="Submit Request" class="btn-small">
                 </div>
 
 
             </form>
         </div>
         <div class="col s9">
+            <?php if (!empty($result)) {
+                foreach ($result as $key => $innerArray): ?>
+                    <ul class="collection">
+                        <?php foreach ($innerArray as $innerKey => $item): ?>
+                            <li class="collection-item"><?php echo 'Hero Name : ' . $item ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endforeach;
+            } ?>
         </div>
     </div>
     </div>
