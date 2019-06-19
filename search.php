@@ -1,11 +1,11 @@
 <?php
 include('config/db_connect.php');
+include('schedulerPowerstatFunctions.php');
 
-$sql = "select heroName, heroStatus, heroRank_ID, Hero_ID from Hero";
-$sqlResult = mysqli_query($db, $sql);
-$arrayOfHeroes = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
-mysqli_free_result($sqlResult);
-mysqli_close($db);
+    if (isset($_POST['doAvailability'])) {
+        $result = doScheduleQuery($_POST['dex'], $_POST['durability'], $_POST['luck'], $_POST['strength'], $_POST['intelligence'], date("Y-m-d", strtotime($_POST['dateWanted'])), $db);
+        mysqli_close($db);
+    }
 
 ?>
 <script src="js/queryConstructor.js"></script>
@@ -19,34 +19,45 @@ mysqli_close($db);
         <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Availability Search.</h4>
         <div class="col s3">
             <form class="white" action="" method="POST">
-                Availible on:
-                <input type="text" name="availibility" Schedule Availbility = "date"/>
+                Available on :
+                <input type="date" name="dateWanted" Schedule Availbility = "date" required/>
                 <p>
                     <br/>
                 </p>
                 Dex At Least at least
-                <input type="text" name="dex" placeholder= "0"/>
+                <input type="text" name="dex" placeholder= "0" value="0"/>
                 Durability at least
-                <input type="text" name="durability" placeholder= "0"/>
+                <input type="text" name="durability" placeholder= "0" value="0"/>
                 Luck at least
-                <input type="text" name="luck" placeholder= "0"/>
+                <input type="text" name="luck" placeholder= "0" value="0"/>
                 Strength at least
-                <input type="text" name="strength" placeholder= "0"/>
+                <input type="text" name="strength" placeholder= "0" value="0"/>
                 Intelligence at least
-                <input type="text" name="intelligence" placeholder= "0"/>
+                <input type="text" name="intelligence" placeholder= "0" value="0"/>
 
                 <p>
                     <br/>
                 </p>
 
                 <div class="center">
-                    <input type="submit" name="doProjection" value="Submit Request" class="btn-small">
+                    <input type="submit" name="doAvailability" value="Submit Request" class="btn-small">
                 </div>
 
 
             </form>
         </div>
         <div class="col s9">
+            <?php if (!empty($result)) {
+                foreach ($result as $key => $innerArray): ?>
+                    <ul class="collection">
+                        <?php foreach ($innerArray as $innerKey => $item): ?>
+                            <li class="collection-item"><strong><?php echo 'Hero Name : ' . $item ?></strong>
+                            <br/>
+                                <?php echo 'Available on: ' . $_POST['dateWanted'] ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endforeach;
+            } ?>
         </div>
     </div>
     </div>
