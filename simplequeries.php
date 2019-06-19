@@ -253,7 +253,7 @@ mysqli_close($db);
     <div class="card">
         <div class="row">
             <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Look for Hero's with all abilities (Division).</h4>
-            <div class="col s3">
+            <div class="center">
                 <form class="white" action="simplequeries.php" method="POST">
                         <input type="submit" name="doDivision" value="Submit Request" class="btn-small">
                     </div>
