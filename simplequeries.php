@@ -20,8 +20,7 @@ if (isset($_POST['doJoin'])) {
 
 
 if (isset($_POST['doProjection'])) {
-    list($sqlResult, $projectionResult) = doProjection($db);
-    mysqli_free_result($sqlResult);
+    list($projectionResult) = doProjection($db);
 }
 
 $heroNameList = getHeroNames($db);
@@ -29,7 +28,17 @@ $heroNameList = getHeroNames($db);
 $abilityNameList = getAbilityNameList($db);
 
 if (isset($_POST['doAggregation'])) {
-    $aggregationResult = doCount($db);
+
+        $heroName= (htmlspecialchars($_POST['heroNameDropdown']));
+        $aggregationResult = doCount($heroName,$db);
+
+}
+
+if (isset($_POST['doNested'])) {
+
+    $Name= (htmlspecialchars($_POST['affiliationList']));
+    $nestedAggregationResult = doNested($Name,$db);
+
 }
 
 mysqli_close($db);
@@ -104,7 +113,7 @@ mysqli_close($db);
 
     <div class="card">
         <div class="row">
-            <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Projection.</h4>
+            <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Field + Table Search (Projection).</h4>
             <div class="col s3">
                 <form class="white" action="simplequeries.php" method="POST">
                     Field Name.
@@ -168,21 +177,14 @@ mysqli_close($db);
     <div class="card">
         <div class="row">
             <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Aggregation.</h4>
+            <h6 class="center">Number of Medals earned by each Hero </h6>
             <div>
                 <form action="simplequeries.php" method="POST">
-                    <div class="col s8">
-                        <select class = "select" name="aggregation">
-                            <option value="count">Count No. of Medals of Each Hero</option>
-                        </select>
-                    </div>
-
                     <div class="col s4">
                         <select class = "select" name="heroNameDropdown">
                             <?php if (!empty($heroNameList)) { foreach ($heroNameList as $arrayResult): ?>
                                 <li class="select-item">
-                                    <?php { ?>
-                                        <option value="heroSelected"><?php echo $arrayResult['heroName'] ?></option>;
-                                    <?php } ?>
+                                    <?php { echo "<option value='" . $arrayResult['heroName'] ."'>" .$arrayResult['heroName'] ."</option>";} ?>
                                 </li>
                             <?php endforeach; } ?>
                         </select>
@@ -202,7 +204,43 @@ mysqli_close($db);
                                 <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
                             <?php endforeach; ?>
                         </ul>
-                    <?php endforeach; } ?>
+                    <?php endforeach; 
+                } ?>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="row">
+            <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Nested Aggregation.</h4>
+            <h6 class="center">Maximum Salary of Hero's who has won a fights grouped by Hero Association </h6>
+            <div>
+                <form action="simplequeries.php" method="POST">
+                    <select class = "select" name="affiliationList">
+                        <option value = "Blizzard Group">Blizzard Group </option>
+                        <option value = "Council of Swordmasters">Council of Swordmasters </option>
+                        <option value = "Hero Association">Hero Association</option>
+                        <option value = "House of Evolution">House of Evolution</option>
+                        <option value = "Saitama Group">Saitama Group</option>
+                        <option value = "Tank Topper Army">Tank Topper Army</option>
+                    </select>
+                    <div class="center">
+                        <input type="submit" name="doNested" value="Submit Request" class="btn-small">
+                    </div>
+                </form>
+            </div>
+
+            <div class="col s6">
+                <?php if (!empty($nestedAggregationResult)) {
+                    foreach ($nestedAggregationResult as $key => $innerArray): ?>
+                        <ul class="collection">
+                            <?php foreach ($innerArray as $innerKey => $item): ?>
+                                <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endforeach;
+                }?>
             </div>
 
         </div>
@@ -213,7 +251,7 @@ mysqli_close($db);
             .select {display: block;}
         </style>
     </head>
-</div
+</div>
 
 
 }

@@ -1,10 +1,6 @@
 <?php
 include('config/db_connect.php');
 
-// references:
-// https://stackoverflow.com/questions/6768793/get-the-full-url-in-php
-// https://stackoverflow.com/questions/11480763/how-to-get-parameters-from-a-url-string
-
 $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $parsedUrl = parse_url($actual_link);
 parse_str($parsedUrl['query'], $query);
@@ -15,7 +11,6 @@ $sql = "select * from Hero where Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
 $hero = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
 
-
 // to get age
 $sql = "select age from HeroDobAge where DOB in ( select DOB from Hero where Hero_ID = $hero_id)";
 $sqlResult = mysqli_query($db, $sql);
@@ -25,18 +20,6 @@ $age = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
 $sql = "select salary from HeroRank where Hero_ID = $hero_id";
 $sqlResult = mysqli_query($db, $sql);
 $salary = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
-
-// setup vars for main info
-$name = $hero['heroName'];
-$dob = $hero['DOB'];
-$age = $age[0]['age'];
-$height = $hero['height'].' cm';
-$weight = $hero['weight'].' lbs';
-$loc = $hero['location'];
-$affil = $hero['affiliation'];
-$heroStatus = $hero['heroStatus'];
-$heroRank = $hero['heroRank_ID'];
-$salary = $salary['salary'];
 
 // detailed info aka powerStats
 $sql = "select dex, durability, luck, strength, intelligence from PowerStats WHERE Hero_ID = $hero_id";
@@ -60,9 +43,28 @@ $sql = "SELECT hs.Available, s.sDate FROM Hero h, Hero_schedule hs, Sche s
         order by s.sDate DESC";
 $sqlResult = mysqli_query($db, $sql);
 $scheArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
-//if (isset($scheArray)) {
-//    echo print_r($scheArray);
-//}
+
+// for fights
+$sql = "Select W.Heroname as winner, L.Heroname as loser,S.sDate, F.Location 
+        From FightResult F, Sche S, Hero W, Hero L
+        where S.schedule_ID = F.schedule_ID 
+        AND F.Winner = W.Hero_ID 
+        AND F.Loser = L.Hero_ID 
+        AND (F.Winner = $hero_id or F.loser = $hero_id)";
+$sqlResult = mysqli_query($db, $sql);
+$fightResultsArray = mysqli_fetch_all($sqlResult, MYSQLI_ASSOC);
+
+// setup vars for main info
+$name       = ($hero['heroName']    === null) ? "<em>Not given.</em>" : $hero['heroName'];
+$dob        = ($hero['DOB']         === null) ? "<em>Not given.</em>" : $hero['DOB'];
+$age        = ($age[0]['age']       === null) ? "<em>Not given.</em>" : $age[0]['age'];
+$height     = ($hero['height']      === null) ? "<em>Not given.</em>" : $hero['height'].' cm.';
+$weight     = ($hero['weight']      === null) ? "<em>Not given.</em>" : $hero['weight'].' lbs.';
+$loc        = ($hero['location']    === null) ? "<em>Not given.</em>" : $hero['location'];
+$affil      = ($hero['affiliation'] === null) ? "<em>Not given.</em>" : $hero['affiliation'];
+$heroStatus = ($hero['heroStatus']  === null) ? "<em>Not given.</em>" : $hero['heroStatus'];
+$heroRank   = ($hero['heroRank_ID'] === null) ? "<em>Not given.</em>" : $hero['heroRank_ID'];
+$salary     = ($salary['salary']    === null) ? "<em>Not given.</em>" : '円'.$salary['salary'];
 
 mysqli_free_result($sqlResult);
 mysqli_close($db);
@@ -82,15 +84,15 @@ mysqli_close($db);
                 <img src="<?php echo $img ?>">
             </div>
             <ul class="collection">
-                <li class="collection-item">Age: <?php echo $age ?></li>
-                <li class="collection-item">Date of Birth: <?php echo $dob ?></li>
-                <li class="collection-item">Height: <?php echo $height ?></li>
-                <li class="collection-item">Weight: <?php echo $weight ?></li>
-                <li class="collection-item">Location: <?php echo $loc ?></li>
-                <li class="collection-item">Affiliation: <?php echo $affil ?></li>
-                <li class="collection-item">Status (Alive/Injured): <?php echo $heroStatus ?></li>
-                <li class="collection-item">Rank: <?php echo $heroRank ?></li>
-                <li class="collection-item">Salary: 円 <?php echo $salary ?></li>
+                <li class="collection-item">Age:                    <?php echo $age ?></li>
+                <li class="collection-item">Date of Birth:          <?php echo $dob ?></li>
+                <li class="collection-item">Height:                 <?php echo $height ?></li>
+                <li class="collection-item">Weight:                 <?php echo $weight ?></li>
+                <li class="collection-item">Location:               <?php echo $loc ?></li>
+                <li class="collection-item">Affiliation:            <?php echo $affil ?></li>
+                <li class="collection-item">Status:                 <?php echo $heroStatus ?></li>
+                <li class="collection-item">Rank:                   <?php echo $heroRank ?></li>
+                <li class="collection-item">Salary:                 <?php echo $salary ?></li>
             </ul>
         </div>
     </div>
@@ -124,6 +126,24 @@ mysqli_close($db);
             <?php foreach ($scheArray as $scheItem): ?>
             <li class="collection-tem">Available on <?php echo $scheItem['sDate'] ?>? <strong><?php echo $scheItem['Available'] ?></strong></li>
             <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="card-title"><h1>Notable Bouts</h1></span>
+        <div class="card-content">
+            <ul class="collection">
+                <?php foreach ($fightResultsArray as $fightResult): ?>
+                    <li class="collection-item">
+                        <?php echo $name ?> fought on <em><?php echo $fightResult['sDate'] ?></em> at <em><?php echo $fightResult['Location'] ?>.</em>
+                        <br/>
+                        <ul class="collection">
+                            <li><strong>Winner:</strong> <?php echo $fightResult['winner'] ?>.</li>
+                            <li><strong>Loser:</strong> <?php echo $fightResult['loser'] ?>.</li>
+                        </ul>
+                    </li>
+                <?php endforeach; ?>
             </ul>
         </div>
     </div>
