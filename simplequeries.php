@@ -48,7 +48,7 @@ if (isset($_POST['doDivision'])) {
 if (isset($_POST['doSelection'])) {
     $field1 = $_POST['field1'];
     $field2 = $_POST['field2'];
-    $field3 = $_POST['field2'];
+    $field3 = $_POST['field3'];
     $selectionResult = doSelection($field1, $field2, $field3, $db);
 }
 
@@ -159,9 +159,6 @@ mysqli_close($db);
                 <form class="white" action="simplequeries.php" method="POST">
                     Select.
                     <input type="text" name="field1" placeholder= "Select"/>
-                    <p>
-                        <br/>
-                    </p>
                     From.
                     <input type="text" name="field2" placeholder= "From"/>
                     Where.
