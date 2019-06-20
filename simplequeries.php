@@ -25,7 +25,6 @@ if (isset($_POST['doProjection'])) {
 }
 
 $heroNameList = getHeroNames($db);
-
 $abilityNameList = getAbilityNameList($db);
 
 if (isset($_POST['doAggregation'])) {

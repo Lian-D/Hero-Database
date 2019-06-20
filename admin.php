@@ -15,6 +15,18 @@ if ($admin == true) {
     $showInterface = 1;
 }
 
+if (isset($_POST['doDelete'])) {
+
+    $heroID = (htmlspecialchars($_POST['heroIDDropDown']));
+    echo "Hero ID: ". $heroID;
+
+
+    $sql = "DELETE 
+            FROM Hero 
+            WHERE Hero.Hero_ID = $heroID";
+    $sqlResult = mysqli_query($db, $sql);
+}
+
 mysqli_close($db);
 
 ?>
@@ -30,7 +42,7 @@ mysqli_close($db);
         <div class="row">
             <div class="col s12 center">
                 <h5 class="center" style="">Remove a hero from the database (by ID and Name).</h5>
-                <form>
+                <form action="admin.php" method="POST">
                 <select class = "select" name="heroIDDropDown">
                     <?php if (!empty($heroIDArray)) { foreach ($heroIDArray as $arrayResult): ?>
                         <li class="select-item">
@@ -38,6 +50,9 @@ mysqli_close($db);
                         </li>
                     <?php endforeach; } ?>
                 </select>
+                    <div class="center">
+                        <input type="submit" name="doDelete" value="Submit Request" class="btn-small">
+                    </div>
                 </form>
                 <p/>
             </div>
