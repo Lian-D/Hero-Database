@@ -6,6 +6,7 @@ include('aggregation.php');
 include('getHeroNames.php');
 include('simplequeries_projection.php');
 include('division.php');
+include('selection.php');
 
 if (isset($_POST['doSalary'])) {
 //    echo print_r($_POST). '<br/>';
@@ -40,9 +41,16 @@ if (isset($_POST['doNested'])) {
     $nestedAggregationResult = doNested($Name,$db);
 
 }
-    if (isset($_POST['doDivision'])) {
-        $divisionResult = doDivision($db);
-    }
+if (isset($_POST['doDivision'])) {
+    $divisionResult = doDivision($db);
+}
+
+if (isset($_POST['doSelection'])) {
+    $field1 = $_POST['field1'];
+    $field2 = $_POST['field2'];
+    $field3 = $_POST['field2'];
+    $selectionResult = doSelection($field1, $field2, $field3, $db);
+}
 
 mysqli_close($db);
 
@@ -133,6 +141,38 @@ mysqli_close($db);
             </div>
             <div class="col s9">
                 <?php if (!empty($projectionResult)) { foreach ($projectionResult as $key => $innerArray): ?>
+                    <ul class="collection">
+                        <?php foreach ($innerArray as $innerKey => $item): ?>
+                            <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endforeach; } ?>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="row">
+            <h4 class="center" style="padding-top: 3vh; padding-bottom: -3vh;">Selection.</h4>
+            <div class="col s3">
+                <form class="white" action="simplequeries.php" method="POST">
+                    Select.
+                    <input type="text" name="field1" placeholder= "Select"/>
+                    <p>
+                        <br/>
+                    </p>
+                    From.
+                    <input type="text" name="field2" placeholder= "From"/>
+                    Where.
+                    <input type="text" name="field3" placeholder= "Where. >, <, =, etc."/>
+                    <div class="center">
+                        <input type="submit" name="doSelection" value="Submit Request" class="btn-small">
+                    </div>
+                </form>
+            </div>
+            <div class="col s9">
+                <?php if (!empty($selectionResult)) { foreach ($selectionResult as $key => $innerArray): ?>
                     <ul class="collection">
                         <?php foreach ($innerArray as $innerKey => $item): ?>
                             <li class="collection-item"><?php echo $innerKey . ': ' . $item ?></li>
