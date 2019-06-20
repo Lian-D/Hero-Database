@@ -60,7 +60,7 @@ function doRegister($username, $password, $db)
 {
     $sql = "insert into `users` (`username`, `password`) values ('{$username}', '{$password}')";
     $result = mysqli_query($db, $sql);
-    mysqli_free_result($result);
+//    mysqli_free_result($result);
 }
 
 if (isset($_POST['logout'])) {
@@ -69,10 +69,21 @@ if (isset($_POST['logout'])) {
     }
 }
 
-
 function userIsAnAdminQuestionMark(): bool
 {
     return (isset($_SESSION['isAdmin'])) && ($_SESSION['isAdmin'] == true);
+}
+
+function getHeroInfo(mysqli $db)
+{
+    if (isset($_SESSION['Hero_ID'])) {
+        $tmp_hero_id = $_SESSION['Hero_ID'];
+        $sqlResult = mysqli_query($db, "select * from Hero where Hero_ID = $tmp_hero_id");
+        $hero = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
+        return $hero;
+    } else {
+        return ['heroName' => 'User.'];
+    }
 }
 
 ?>
@@ -119,7 +130,10 @@ function userIsAnAdminQuestionMark(): bool
     <?php if (!(isset($_SESSION['isLoggedIn']))) {echo "display:none !important";} else {null;} ?>">
         <div class="col s12 center">
             <div class="card">
-                <h3 class="center-align" style="padding-right: 0.5em">User Info</h3>
+                <h3 class="center-align" style="padding-right: 0.5em">
+                    <?php $hero = getHeroInfo($db); ?>
+                    Welcome <?php echo $hero['heroName'] ?>
+                </h3>
                 <div style="padding-left: 0.5em; padding-bottom: 0.75em">
                     Username: <?php
                     if (isset($_SESSION['isLoggedIn'])) {
@@ -136,26 +150,22 @@ function userIsAnAdminQuestionMark(): bool
                         echo 'Regular.';
                     }
                     ?> <p/>
-                    User actions: <?php
-                    if (userIsAnAdminQuestionMark()) {
+                    User actions:
+                    <?php if (userIsAnAdminQuestionMark()) {
                         echo "<form action='admin.php'>
                         <button type='submit' name='adminbtn' class='btn-small' style='margin-top: -4.25em;'>Admin Panel</button>
                         </form>";
                     } else if (isset($_SESSION['Hero_ID'])) { ?>
                         <?php
-//                        echo $_SESSION['Hero_ID'];
-                        $tmp_hero_id = $_SESSION['Hero_ID'];
-//                        echo $tmp_hero_id;
-                        $sqlResult = mysqli_query($db, "select * from Hero where Hero_ID = $tmp_hero_id");
-                        $hero = mysqli_fetch_array($sqlResult, MYSQLI_ASSOC);
-//                        echo print_r($hero);
                         echo "<p/>"."Current status: ".$hero['heroStatus'];
                         ?>
                         <form action ="user.php" class="white" method="POST">
                             <input type="text" name="update" placeholder="Update status.">
                                 <button type="submit" name="upd" class="btn-large">submit request</button>
                         </form>
-                    <?php }?>
+                    <?php } else {
+                        echo "<em>".'No actions available.'."</em>";
+                    }?>
                     <p/>
                     <p/>
                 </div>
